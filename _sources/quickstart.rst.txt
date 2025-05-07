@@ -83,6 +83,16 @@ Here is an example script:
     bpy.context.scene.camera = bpy.context.scene.objects["Camera"]
     scene = bpy.context.scene
 
+    # Set camera position
+    cam.location.x = xxx
+    cam.location.y = xxx
+    cam.location.z = xxx
+
+    cam.rotation_euler[0] = xxx
+    cam.rotation_euler[1] = xxx
+    cam.rotation_euler[2] = xxx
+    
+    # Light should follow camera position
     light = bpy.data.objects['Light']
     light.location.x = cam.location.x
     light.location.y = cam.location.y
