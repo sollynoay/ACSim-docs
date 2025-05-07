@@ -1,0 +1,175 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Installing Python Packages in Blender &mdash; acsim 0.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=7026087e"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Quick start" href="quickstart.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            acsim
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick start</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Installing Python Packages in Blender</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#step-1-open-command-prompt-as-administrator">Step 1: Open Command Prompt as Administrator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-2-install-pip-only-for-older-blender-versions">Step 2: Install <cite>pip</cite> (Only for older Blender versions)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-3-upgrade-pip">Step 3: Upgrade <cite>pip</cite></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-4-install-other-packages">Step 4: Install Other Packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tips">Tips</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installing-from-prebuilt-wheel-files">Installing from Prebuilt Wheel Files</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">acsim</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Installing Python Packages in Blender</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/install_package.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="installing-python-packages-in-blender">
+<h1>Installing Python Packages in Blender<a class="headerlink" href="#installing-python-packages-in-blender" title="Link to this heading"></a></h1>
+<p>This page explains how to instal packages like <cite>PIL</cite> into Blender built-in python.</p>
+<section id="step-1-open-command-prompt-as-administrator">
+<h2>Step 1: Open Command Prompt as Administrator<a class="headerlink" href="#step-1-open-command-prompt-as-administrator" title="Link to this heading"></a></h2>
+<p>On Windows:</p>
+<ol class="arabic simple">
+<li><p>Press the <strong>Windows key</strong>, type <cite>cmd</cite>.</p></li>
+<li><p>Right-click on <strong>Command Prompt</strong>, and select <strong>Run as administrator</strong>.</p></li>
+</ol>
+</section>
+<section id="step-2-install-pip-only-for-older-blender-versions">
+<h2>Step 2: Install <cite>pip</cite> (Only for older Blender versions)<a class="headerlink" href="#step-2-install-pip-only-for-older-blender-versions" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>⚠ This step is <strong>not needed</strong> for Blender 2.8 or later (including Blender 3.x and 4.x).</p></li>
+</ul>
+<p>Blender versions less than <strong>2.79</strong> do not include <cite>pip</cite> by default. In that case, you must install it manually using Blender’s internal Python interpreter.</p>
+<p>Run the following command, replacing <cite>2.79</cite> with your Blender version if different:</p>
+<p>“C:\Program Files\Blender Foundation\Blender\2.79\python\bin\python.exe” -m ensurepip</p>
+</section>
+<section id="step-3-upgrade-pip">
+<h2>Step 3: Upgrade <cite>pip</cite><a class="headerlink" href="#step-3-upgrade-pip" title="Link to this heading"></a></h2>
+<p>“C:\Program Files\Blender Foundation\Blender 3.4\3.4\python\bin\python.exe” -m pip install –upgrade pip</p>
+<ul class="simple">
+<li><p>Please check your installation directory.</p></li>
+</ul>
+</section>
+<section id="step-4-install-other-packages">
+<h2>Step 4: Install Other Packages<a class="headerlink" href="#step-4-install-other-packages" title="Link to this heading"></a></h2>
+<p>To install packages such as <cite>PIL</cite>, run:</p>
+<p>“C:\Program Files\Blender Foundation\Blender 3.4\3.4\python\bin\python.exe” -m pip install Pillow</p>
+<p>To run the built-in version, <cite>PIL</cite> and <cite>einops</cite> is required and can be installed based on the process.</p>
+</section>
+<section id="tips">
+<h2>Tips<a class="headerlink" href="#tips" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Always run your terminal <strong>as Administrator</strong> when modifying Blender’s internal Python.</p></li>
+<li><p>You can use <cite>–target &lt;path&gt;</cite> with <cite>pip install</cite> if you prefer installing packages to a specific folder and importing manually via <cite>sys.path.append(…)</cite>.</p></li>
+</ul>
+</section>
+<section id="installing-from-prebuilt-wheel-files">
+<h2>Installing from Prebuilt Wheel Files<a class="headerlink" href="#installing-from-prebuilt-wheel-files" title="Link to this heading"></a></h2>
+<p>If a package cannot be installed directly using <cite>pip</cite> inside Blender’s Python environment—due to missing compilers or build tools—you can download a prebuilt <cite>.whl</cite> (wheel) file instead.</p>
+<ol class="arabic simple">
+<li><p>Visit the following website to find precompiled wheel files:</p></li>
+</ol>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.wheelodex.org/">https://www.wheelodex.org/</a></p></li>
+</ul>
+<p>2. Download the <cite>.whl</cite> file that matches:
+- Your Blender’s Python version (e.g., <cite>cp310</cite> for Python 3.10)
+- Your operating system and architecture (e.g., <cite>win_amd64</cite> for 64-bit Windows)</p>
+<ol class="arabic simple" start="3">
+<li><p>Install it using Blender’s Python:</p></li>
+</ol>
+<p>Example:</p>
+<p>“C:\Program Files\Blender Foundation\Blender 3.4\3.4\python\bin\python.exe” -m pip install C:\path\to\downloaded\file.whl</p>
+<ul class="simple">
+<li><p>Be sure the <cite>.whl</cite> file version exactly matches your Python version (<cite>cp39</cite>, <cite>cp310</cite>, etc.).</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="quickstart.html" class="btn btn-neutral float-left" title="Quick start" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Yusheng Wang.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

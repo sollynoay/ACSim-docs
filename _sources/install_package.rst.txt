@@ -1,0 +1,70 @@
+Installing Python Packages in Blender
+=====================================
+
+This page explains how to instal packages like `PIL` into Blender built-in python.
+
+Step 1: Open Command Prompt as Administrator
+--------------------------------------------
+
+On Windows:
+
+1. Press the **Windows key**, type `cmd`.
+2. Right-click on **Command Prompt**, and select **Run as administrator**.
+
+Step 2: Install `pip` (Only for older Blender versions)
+-------------------------------------------------------
+
+- ⚠ This step is **not needed** for Blender 2.8 or later (including Blender 3.x and 4.x).
+
+Blender versions less than **2.79** do not include `pip` by default. In that case, you must install it manually using Blender’s internal Python interpreter.
+
+Run the following command, replacing `2.79` with your Blender version if different:
+
+"C:\\Program Files\\Blender Foundation\\Blender\\2.79\\python\\bin\\python.exe" -m ensurepip
+
+Step 3: Upgrade `pip`
+---------------------
+
+"C:\\Program Files\\Blender Foundation\\Blender 3.4\\3.4\\python\\bin\\python.exe" -m pip install --upgrade pip
+
+- Please check your installation directory.
+
+Step 4: Install Other Packages
+------------------------------
+
+To install packages such as `PIL`, run:
+
+"C:\\Program Files\\Blender Foundation\\Blender 3.4\\3.4\\python\\bin\\python.exe" -m pip install Pillow
+
+To run the built-in version, `PIL` and `einops` is required and can be installed based on the process. 
+
+Tips
+----
+
+- Always run your terminal **as Administrator** when modifying Blender's internal Python.
+- You can use `--target <path>` with `pip install` if you prefer installing packages to a specific folder and importing manually via `sys.path.append(...)`.
+
+Installing from Prebuilt Wheel Files
+------------------------------------
+
+If a package cannot be installed directly using `pip` inside Blender's Python environment—due to missing compilers or build tools—you can download a prebuilt `.whl` (wheel) file instead.
+
+1. Visit the following website to find precompiled wheel files:
+
+- https://www.wheelodex.org/
+
+2. Download the `.whl` file that matches:
+- Your Blender's Python version (e.g., `cp310` for Python 3.10)
+- Your operating system and architecture (e.g., `win_amd64` for 64-bit Windows)
+
+3. Install it using Blender’s Python:
+
+Example:
+
+"C:\\Program Files\\Blender Foundation\\Blender 3.4\\3.4\\python\\bin\\python.exe" -m pip install C:\\path\\to\\downloaded\\file.whl
+
+- Be sure the `.whl` file version exactly matches your Python version (`cp39`, `cp310`, etc.).
+
+
+
+

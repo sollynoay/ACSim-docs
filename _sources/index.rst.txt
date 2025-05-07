@@ -15,6 +15,7 @@ To get started quickly, see the :doc:`Quick Start <quickstart>` guide.
    :caption: Contents:
 
    quickstart
+   install_package
 
 
 
