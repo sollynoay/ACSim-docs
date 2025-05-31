@@ -22,5 +22,15 @@ By default:
    :alt: Ground truth sample
    :align: center
 
-For **optical flow**, since it requires two different poses, it is recommended to use a Python script to generate the output.
+For **optical flow**, since it requires two different poses, it is recommended to use a Python script to generate the output as follows.
+
+Flow
+----
+
+To generate optical flow ground truth, ACSim provides a dedicated setup.
+
+1. Open the ``of.blend`` file located in the built-in folder.
+2. Go to the **Scripting** workspace in Blender.
+3. Run the provided flow script to generate and save the flow data.
+
 

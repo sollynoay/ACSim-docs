@@ -47,6 +47,7 @@
 <li class="toctree-l1"><a class="reference internal" href="install_package.html">Installing Python Packages in Blender</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Ground Truth Generation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#flow">Flow</a></li>
 </ul>
 </li>
 </ul>
@@ -91,7 +92,16 @@
 - <strong>depth</strong> is saved as a <cite>.npy</cite> file</p>
 <p>&gt; ⚠️ When setting the output path, please make sure the file extension matches the expected format (e.g., <cite>.png</cite> for mask, <cite>.npy</cite> for depth).</p>
 <img alt="Ground truth sample" class="align-center" src="_images/gt.PNG" />
-<p>For <strong>optical flow</strong>, since it requires two different poses, it is recommended to use a Python script to generate the output.</p>
+<p>For <strong>optical flow</strong>, since it requires two different poses, it is recommended to use a Python script to generate the output as follows.</p>
+</section>
+<section id="flow">
+<h2>Flow<a class="headerlink" href="#flow" title="Link to this heading"></a></h2>
+<p>To generate optical flow ground truth, ACSim provides a dedicated setup.</p>
+<ol class="arabic simple">
+<li><p>Open the <code class="docutils literal notranslate"><span class="pre">of.blend</span></code> file located in the built-in folder.</p></li>
+<li><p>Go to the <strong>Scripting</strong> workspace in Blender.</p></li>
+<li><p>Run the provided flow script to generate and save the flow data.</p></li>
+</ol>
 </section>
 </section>
 
