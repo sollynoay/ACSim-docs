@@ -1,0 +1,26 @@
+Ground Truth Generation
+=======================
+
+ACSim provides ground truth generation functions for **mask**, **3D depth**, and **optical flow**.
+
+Overview
+--------
+
+To activate ground truth saving, use the built-in version of ACSim and enable one or more of the following options:
+
+- **mask**
+- **depth**
+- **ele** (elevation angle)
+
+By default:
+- **mask** and **ele** are saved as `.png` files
+- **depth** is saved as a `.npy` file
+
+> ⚠️ When setting the output path, please make sure the file extension matches the expected format (e.g., `.png` for mask, `.npy` for depth).
+
+.. image:: _static/gt.PNG
+   :alt: Ground truth sample
+   :align: center
+
+For **optical flow**, since it requires two different poses, it is recommended to use a Python script to generate the output.
+
