@@ -38,6 +38,9 @@ If you see "SonarRT" listed, the setup was successful.
    :alt: SonarRT in render engine
    :align: center
 
+  
+.. note::
+   If any problem occurs during execution, go to **Window > Toggle System Console** in Blender to view the error log and debug output.
 
 
 Parameters
