@@ -1,0 +1,140 @@
+Accelerated Version
+===================
+
+ACSim provides an accelerated implementation for faster ray-mesh intersection using Cython and EmbreeX. This is especially useful when generating a large number of sonar images.
+
+Installing Dependencies
+-----------------------
+
+Before using the accelerated version, you must install a few additional packages inside Blender's Python environment.
+
+> 📄 For general instructions on how to install packages in Blender, refer to the :doc:`install_package` page.
+
+### Step 1: Open Blender's Python Environment
+
+1. Open **Command Prompt** as Administrator.
+2. Use Blender’s internal Python executable (adjust the version as needed):
+
+.. code-block:: bash
+
+   C:\\Program Files\\Blender Foundation\\Blender 3.4\\3.4\\python\\bin\\python.exe
+
+### Step 2: Install `EmbreeX`
+
+`trimesh` no longer bundles Embree support by default. You need to install `embreex` manually **before** installing `trimesh`.
+
+1. Download the precompiled `.whl` or compatible package.
+2. Install it using Blender's Python:
+
+.. code-block:: bash
+
+   "<blender_python_path>" -m pip install embreex
+
+### Step 3: Install `trimesh`
+
+Once EmbreeX is installed, you can install `trimesh`:
+
+.. code-block:: bash
+
+   "<blender_python_path>" -m pip install trimesh
+
+Running the Cython Version
+--------------------------
+
+After all dependencies are installed:
+
+1. Open the `debug.blend` file.
+2. Go to the **Scripting** workspace.
+3. Run the script. It will automatically detect and use the accelerated ray tracing modules.
+
+Verifying EmbreeX with trimesh
+------------------------------
+
+To verify that `trimesh` is correctly using EmbreeX, run the following test script:
+
+.. code-block:: python
+
+   import trimesh
+
+   mesh = trimesh.creation.icosphere()
+
+   try:
+       from trimesh.ray.ray_pyembree import RayMeshIntersector
+       intersector = RayMeshIntersector(mesh)
+       backend = "Embree (via embreex)"
+   except ImportError:
+       from trimesh.ray.ray_triangle import RayMeshIntersector
+       intersector = RayMeshIntersector(mesh)
+       backend = "Fallback (NumPy / R-tree)"
+
+   ray_origins = [[0, 0, 2]]
+   ray_directions = [[0, 0, -1]]
+
+   locations, index_ray, index_tri = intersector.intersects_location(
+       ray_origins=ray_origins,
+       ray_directions=ray_directions)
+
+   print(f"Ray tracing backend: {backend}")
+   print(f"Hit locations: {locations}")
+   print(f"Ray indices: {index_ray}")
+   print(f"Triangle indices: {index_tri}")
+
+If the output shows `"Embree (via embreex)"`, EmbreeX is working properly. If not, trimesh will fall back to a slower NumPy-based implementation.
+
+Compiling Cython Modules
+-------------------------
+
+To compile `.pyx` Cython modules, it is recommended to use a separate environment such as Anaconda instead of Blender directly.
+
+### Step 1: Create a Conda Environment
+
+Make sure the Python version matches the version used by Blender.
+
+Example for Python 3.10:
+
+.. code-block:: bash
+
+   conda create -n cython python=3.10
+   conda activate cython
+
+### Step 2: Install Build Tools
+
+Inside the Conda environment, run:
+
+.. code-block:: bash
+
+   pip install numpy cython
+
+### Step 3: Build the Extension
+
+Navigate to the folder containing `setup.py`, then run:
+
+.. code-block:: bash
+
+   python setup.py build_ext --inplace
+
+Run the Optimized Version
+--------------------------
+
+1. Open `optimized.blend`.
+2. In the **Scripting** tab:
+   - Run `sonarRT_plugin.py` (click ▶️)
+   - Run `sonarRT_UIpanels.py` (click ▶️)
+
+Path Configuration
+------------------
+
+Make sure to set paths correctly in two places:
+
+1. **Path to `.pyx` files in `setup.py`**  
+   Update it to point to your actual Cython module source.
+
+2. **System path in `sonarRT_plugin.py`**  
+   At the beginning of the script, add your compiled module path:
+
+.. code-block:: python
+
+   import sys
+   sys.path.append("C:/Users/ywang/Downloads/cython/cython")
+
+> 💡 If the compiled module isn't found, Blender won't be able to use the accelerated version.

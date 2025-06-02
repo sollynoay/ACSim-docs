@@ -17,6 +17,7 @@ To get started quickly, see the :doc:`Quick Start <quickstart>` guide.
    quickstart
    install_package
    groundtruth
+   optimized
 
 
 

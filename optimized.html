@@ -1,0 +1,231 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Accelerated Version &mdash; acsim 0.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=7026087e"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Ground Truth Generation" href="groundtruth.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            acsim
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install_package.html">Installing Python Packages in Blender</a></li>
+<li class="toctree-l1"><a class="reference internal" href="groundtruth.html">Ground Truth Generation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Accelerated Version</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#installing-dependencies">Installing Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#running-the-cython-version">Running the Cython Version</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#verifying-embreex-with-trimesh">Verifying EmbreeX with trimesh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#compiling-cython-modules">Compiling Cython Modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#run-the-optimized-version">Run the Optimized Version</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#path-configuration">Path Configuration</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">acsim</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Accelerated Version</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/optimized.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="accelerated-version">
+<h1>Accelerated Version<a class="headerlink" href="#accelerated-version" title="Link to this heading"></a></h1>
+<p>ACSim provides an accelerated implementation for faster ray-mesh intersection using Cython and EmbreeX. This is especially useful when generating a large number of sonar images.</p>
+<section id="installing-dependencies">
+<h2>Installing Dependencies<a class="headerlink" href="#installing-dependencies" title="Link to this heading"></a></h2>
+<p>Before using the accelerated version, you must install a few additional packages inside Blender’s Python environment.</p>
+<p>&gt; 📄 For general instructions on how to install packages in Blender, refer to the <a class="reference internal" href="install_package.html"><span class="doc">Installing Python Packages in Blender</span></a> page.</p>
+<p>### Step 1: Open Blender’s Python Environment</p>
+<ol class="arabic simple">
+<li><p>Open <strong>Command Prompt</strong> as Administrator.</p></li>
+<li><p>Use Blender’s internal Python executable (adjust the version as needed):</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>C:<span class="se">\\</span>Program<span class="w"> </span>Files<span class="se">\\</span>Blender<span class="w"> </span>Foundation<span class="se">\\</span>Blender<span class="w"> </span><span class="m">3</span>.4<span class="se">\\</span><span class="m">3</span>.4<span class="se">\\</span>python<span class="se">\\</span>bin<span class="se">\\</span>python.exe
+</pre></div>
+</div>
+<p>### Step 2: Install <cite>EmbreeX</cite></p>
+<p><cite>trimesh</cite> no longer bundles Embree support by default. You need to install <cite>embreex</cite> manually <strong>before</strong> installing <cite>trimesh</cite>.</p>
+<ol class="arabic simple">
+<li><p>Download the precompiled <cite>.whl</cite> or compatible package.</p></li>
+<li><p>Install it using Blender’s Python:</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;&lt;blender_python_path&gt;&quot;</span><span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>embreex
+</pre></div>
+</div>
+<p>### Step 3: Install <cite>trimesh</cite></p>
+<p>Once EmbreeX is installed, you can install <cite>trimesh</cite>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;&lt;blender_python_path&gt;&quot;</span><span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>trimesh
+</pre></div>
+</div>
+</section>
+<section id="running-the-cython-version">
+<h2>Running the Cython Version<a class="headerlink" href="#running-the-cython-version" title="Link to this heading"></a></h2>
+<p>After all dependencies are installed:</p>
+<ol class="arabic simple">
+<li><p>Open the <cite>debug.blend</cite> file.</p></li>
+<li><p>Go to the <strong>Scripting</strong> workspace.</p></li>
+<li><p>Run the script. It will automatically detect and use the accelerated ray tracing modules.</p></li>
+</ol>
+</section>
+<section id="verifying-embreex-with-trimesh">
+<h2>Verifying EmbreeX with trimesh<a class="headerlink" href="#verifying-embreex-with-trimesh" title="Link to this heading"></a></h2>
+<p>To verify that <cite>trimesh</cite> is correctly using EmbreeX, run the following test script:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">trimesh</span>
+
+<span class="n">mesh</span> <span class="o">=</span> <span class="n">trimesh</span><span class="o">.</span><span class="n">creation</span><span class="o">.</span><span class="n">icosphere</span><span class="p">()</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">trimesh.ray.ray_pyembree</span><span class="w"> </span><span class="kn">import</span> <span class="n">RayMeshIntersector</span>
+    <span class="n">intersector</span> <span class="o">=</span> <span class="n">RayMeshIntersector</span><span class="p">(</span><span class="n">mesh</span><span class="p">)</span>
+    <span class="n">backend</span> <span class="o">=</span> <span class="s2">&quot;Embree (via embreex)&quot;</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">trimesh.ray.ray_triangle</span><span class="w"> </span><span class="kn">import</span> <span class="n">RayMeshIntersector</span>
+    <span class="n">intersector</span> <span class="o">=</span> <span class="n">RayMeshIntersector</span><span class="p">(</span><span class="n">mesh</span><span class="p">)</span>
+    <span class="n">backend</span> <span class="o">=</span> <span class="s2">&quot;Fallback (NumPy / R-tree)&quot;</span>
+
+<span class="n">ray_origins</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]]</span>
+<span class="n">ray_directions</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]]</span>
+
+<span class="n">locations</span><span class="p">,</span> <span class="n">index_ray</span><span class="p">,</span> <span class="n">index_tri</span> <span class="o">=</span> <span class="n">intersector</span><span class="o">.</span><span class="n">intersects_location</span><span class="p">(</span>
+    <span class="n">ray_origins</span><span class="o">=</span><span class="n">ray_origins</span><span class="p">,</span>
+    <span class="n">ray_directions</span><span class="o">=</span><span class="n">ray_directions</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Ray tracing backend: </span><span class="si">{</span><span class="n">backend</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Hit locations: </span><span class="si">{</span><span class="n">locations</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Ray indices: </span><span class="si">{</span><span class="n">index_ray</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Triangle indices: </span><span class="si">{</span><span class="n">index_tri</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If the output shows <cite>“Embree (via embreex)”</cite>, EmbreeX is working properly. If not, trimesh will fall back to a slower NumPy-based implementation.</p>
+</section>
+<section id="compiling-cython-modules">
+<h2>Compiling Cython Modules<a class="headerlink" href="#compiling-cython-modules" title="Link to this heading"></a></h2>
+<p>To compile <cite>.pyx</cite> Cython modules, it is recommended to use a separate environment such as Anaconda instead of Blender directly.</p>
+<p>### Step 1: Create a Conda Environment</p>
+<p>Make sure the Python version matches the version used by Blender.</p>
+<p>Example for Python 3.10:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>cython<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.10
+conda<span class="w"> </span>activate<span class="w"> </span>cython
+</pre></div>
+</div>
+<p>### Step 2: Install Build Tools</p>
+<p>Inside the Conda environment, run:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>numpy<span class="w"> </span>cython
+</pre></div>
+</div>
+<p>### Step 3: Build the Extension</p>
+<p>Navigate to the folder containing <cite>setup.py</cite>, then run:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>setup.py<span class="w"> </span>build_ext<span class="w"> </span>--inplace
+</pre></div>
+</div>
+</section>
+<section id="run-the-optimized-version">
+<h2>Run the Optimized Version<a class="headerlink" href="#run-the-optimized-version" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p>Open <cite>optimized.blend</cite>.</p></li>
+<li><p>In the <strong>Scripting</strong> tab:
+- Run <cite>sonarRT_plugin.py</cite> (click ▶️)
+- Run <cite>sonarRT_UIpanels.py</cite> (click ▶️)</p></li>
+</ol>
+</section>
+<section id="path-configuration">
+<h2>Path Configuration<a class="headerlink" href="#path-configuration" title="Link to this heading"></a></h2>
+<p>Make sure to set paths correctly in two places:</p>
+<ol class="arabic simple">
+<li><p><strong>Path to `.pyx` files in `setup.py`</strong>
+Update it to point to your actual Cython module source.</p></li>
+<li><p><strong>System path in `sonarRT_plugin.py`</strong>
+At the beginning of the script, add your compiled module path:</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;C:/Users/ywang/Downloads/cython/cython&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>&gt; 💡 If the compiled module isn’t found, Blender won’t be able to use the accelerated version.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="groundtruth.html" class="btn btn-neutral float-left" title="Ground Truth Generation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Yusheng Wang.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
