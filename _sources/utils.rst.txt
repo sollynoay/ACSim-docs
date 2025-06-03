@@ -1,0 +1,150 @@
+Functions
+=========
+
+This page introduces two utility functions provided by ACSim:
+
+1. **Polar to Fan-Shaped Coordinate Conversion**
+2. **Rolling Shutter Image Simulation**
+
+---
+
+Polar to Fan-Shaped Coordinate Conversion
+-----------------------------------------
+
+This function converts an image from **polar coordinates** (r-θ, typically in rectangular image format) to **Euclidean coordinates** (x-y, fan-shaped view).
+
+.. code-block:: python
+
+   import math
+   import numpy as np
+   import cv2
+   import matplotlib.pyplot as plt
+
+   # Load image
+   path = "/home/dl/workspace/sonar-sim/img/8.png"
+   img = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
+   if img is None:
+       raise ValueError("Image not found or path is incorrect.")
+
+   # Parameters
+   uplimit = 4.95667
+   lowlimit = 0.971
+   resolution = 0.003
+   width = int(uplimit / resolution * np.sin(30 / 180 * math.pi))
+   length2 = int(uplimit / resolution)
+   length = int(np.floor((uplimit - lowlimit) / resolution))
+   scaledimagewidth = 128
+
+   # Convert from polar to raw fan
+   raw2fan0 = np.zeros((length2, width))
+   arrraw = img.copy()
+   for i in range(length2):
+       for j in range(width):
+           root_squared = math.sqrt(i * i + j * j)
+           idx = int(root_squared - lowlimit / resolution)
+           if idx > 0:
+               azi = int(scaledimagewidth * 180 / 30 / math.pi * math.acos(i / root_squared))
+               if idx > length - 1 or azi > scaledimagewidth - 1:
+                   continue
+               raw2fan0[i, j] = arrraw[idx, azi]
+
+   # Rotate and align the fan image
+   width2 = int(length2 * math.cos(75 / 180 * math.pi) * 2)
+   offset = int(length2 - length2 * math.sin(75 / 180 * math.pi))
+   length3 = int(length2 + offset)
+   xcenter = 0
+   ycenter = int(length2)
+   degrees = 15
+   fan1 = np.zeros((length3, width2))
+
+   for i in range(length3):
+       for j in range(width2):
+           px = int((j - xcenter) * math.cos(degrees / 180 * math.pi) + (i - ycenter) * math.sin(degrees / 180 * math.pi) + xcenter)
+           py = int(-(j - xcenter) * math.sin(degrees / 180 * math.pi) + (i - ycenter) * math.cos(degrees / 180 * math.pi) + ycenter)
+           if px < 0 or px > width - 1 or py > length2 - 1 or py < 0:
+               continue
+           if i - offset > 0:
+               fan1[i - offset, j] = raw2fan0[py, px]
+
+   fan1 = fan1[0:length2 - 1, :]
+   fan1 = cv2.flip(fan1, 0)
+
+   # Save and visualize
+   fan1_normalized = cv2.normalize(fan1, None, 0, 255, cv2.NORM_MINMAX)
+   fan1_uint8 = fan1_normalized.astype(np.uint8)
+   cv2.imwrite("/home/dl/workspace/sonar-sim/img/fan_output2.png", fan1_uint8)
+   plt.figure()
+   plt.imshow(fan1, cmap='gray', aspect='auto')
+   plt.title('Rotated Fan-Shaped Image')
+   plt.axis('off')
+   plt.show()
+
+---
+
+Rolling Shutter Image Generation
+--------------------------------
+
+This script simulates the **rolling shutter effect** by rendering multiple images at different timestamps and combining them vertically.
+
+.. code-block:: python
+
+   import os
+   import bpy
+   import mathutils
+   import numpy as np
+   from PIL import Image
+   from einops import rearrange
+
+   def move_y_local(camera):
+       dx = 0.008
+       vec = mathutils.Vector((dx, 0, 0))
+       inv = camera.rotation_euler.to_matrix()
+       inv.invert()
+       camera.location += vec @ inv
+       return dx
+
+   def rotate_z_global(camera):
+       dyaw = -0.005
+       camera.rotation_euler[2] += dyaw
+       return dyaw
+
+   cam = bpy.data.objects['Camera']
+   scene = bpy.context.scene
+   bpy.context.scene.camera = cam
+
+   epochs = 8
+   name_list = []
+
+   cam.location = mathutils.Vector((-4.26245, -3.35915, 1.05135))
+   cam.rotation_euler = mathutils.Euler((55.5998, 7.15275, -48.6033), 'XYZ')
+   cam.rotation_euler = [math.radians(a) for a in cam.rotation_euler]
+
+   for i in range(epochs):
+       print("Current epoch:", i)
+       light = bpy.data.objects['Light']
+       light.location = cam.location.copy()
+
+       scene.sonarRT.save_path = f"E:\\sim-data-rs\\eval\\{i}.png"
+       name_list.append(scene.sonarRT.save_path)
+       bpy.ops.render.render()
+       rotate_z_global(cam)
+
+   image_list = []
+   for i in range(epochs):
+       img = Image.open(name_list[i]).convert("L")
+       img = np.array(img)[:, i:128:8]
+       img = img[np.newaxis, :, :]
+       image_list.append(img)
+
+   patches = np.concatenate(image_list)
+   rs = rearrange(patches, 'b h w -> h (w b)')
+   rs_img = Image.fromarray(rs.astype(np.uint8), 'L')
+   rs_img.save("E:\\sim-data-rs\\eval\\rs1.png")
+
+Explanation
+-----------
+
+In practice, sonar transducers often do not fire simultaneously.  
+When the sonar device is moving, this leads to a **rolling shutter effect**.  
+This script emulates such behavior by generating multiple images across time and combining them into a single image that reflects this temporal shift.
+
